@@ -14,25 +14,32 @@ A simple Express.js API for processing ride data with PostgreSQL database integr
 4. Make sure PostgreSQL is running and the database is created
 
 ### Deployment on Hetzner CX22/CX32
-The application includes a deployment script for Hetzner servers:
+The application includes a setup script for Hetzner servers:
 
-1. Copy the application files to your server
-2. Make the deployment script executable (if needed):
+1. Clone this repository on your server:
    ```
-   chmod +x deploy.sh
+   git clone https://github.com/yourusername/firehose-app.git
+   cd firehose-app
    ```
-3. Run the deployment script as root:
+
+2. Make the setup script executable (if needed):
    ```
-   sudo ./deploy.sh
+   chmod +x setup.sh
+   ```
+
+3. Run the setup script as root:
+   ```
+   sudo ./setup.sh
    ```
 
 The script will:
+- Install Node.js, npm, and PostgreSQL if not already installed
 - Create a nodejs user
 - Install the application in /opt/firehose-app
-- Install PostgreSQL if not already installed
-- Create the necessary database and user
+- Create the necessary database and user with secure random password
 - Set up a systemd service that ensures PostgreSQL is running
-- Enable the service to start on boot
+- Enable and start the service
+- Display useful commands for managing the application
 
 ## Running the Application
 
