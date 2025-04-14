@@ -1,0 +1,27 @@
+[Unit]
+Description=Firehose Ride Processing Application
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=nodejs
+WorkingDirectory=/opt/firehose-app
+ExecStart=/usr/bin/node /opt/firehose-app/index.js
+Restart=always
+# Retry with exponential backoff
+RestartSec=10
+StartLimitIntervalSec=0
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=firehose-app
+Environment=NODE_ENV=production
+Environment=PORT=80
+
+# Security enhancements
+ProtectSystem=full
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
