@@ -1,5 +1,4 @@
 #!/bin/bash
-# Setup script for Firehose App on Hetzner CX22/CX32 server
 # Run this after cloning the repository on the server
 
 set -e
@@ -8,8 +7,8 @@ set -e
 APP_DIR="/opt/firehose-app"
 SERVICE_NAME="firehose-app"
 SYSTEMD_PATH="/etc/systemd/system"
-DB_NAME="ridedb"
-DB_USER="nodeapp"
+DB_NAME="postgres"
+DB_USER="postgres"
 DB_PASSWORD=$(openssl rand -base64 12)
 
 echo "==== Firehose App Setup ===="
@@ -53,7 +52,7 @@ echo "Installing npm dependencies..."
 cd $APP_DIR
 npm install --production
 
-# Setup database (idempotent operations)
+# Setup database (idempotently)
 echo "Setting up PostgreSQL database..."
 sudo -u postgres psql -tc "SELECT 1 FROM pg_database WHERE datname = '$DB_NAME'" | grep -q 1 || sudo -u postgres psql -c "CREATE DATABASE $DB_NAME;"
 sudo -u postgres psql -tc "SELECT 1 FROM pg_roles WHERE rolname = '$DB_USER'" | grep -q 1 || sudo -u postgres psql -c "CREATE USER $DB_USER WITH ENCRYPTED PASSWORD '$DB_PASSWORD';"

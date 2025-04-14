@@ -5,15 +5,12 @@ const db = require('./db');
 
 const app = express();
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// POST /rides endpoint
 app.post('/rides', async (req, res) => {
   const ride = req.body;
   
-  // Validate required fields
   const requiredFields = [
     'Type', 'Datetime', 'UserID', 'DriverID', 'CityCode',
     'PickupLocationID', 'DropoffLocationID', 'PassengerCount',
@@ -30,7 +27,6 @@ app.post('/rides', async (req, res) => {
   }
   
   try {
-    // Insert ride into database
     const result = await db.createRide(ride);
     
     res.status(201).json({
@@ -43,7 +39,6 @@ app.post('/rides', async (req, res) => {
   }
 });
 
-// GET /active endpoint
 app.get('/active', async (req, res) => {
   try {
     const activeRides = await db.getActiveRides();
@@ -54,7 +49,6 @@ app.get('/active', async (req, res) => {
   }
 });
 
-// Health check endpoint
 app.get('/health', async (req, res) => {
   const dbStatus = await db.healthCheck();
   
@@ -65,10 +59,8 @@ app.get('/health', async (req, res) => {
   }
 });
 
-// Determine port based on environment
 const PORT = process.env.NODE_ENV === 'production' ? 80 : 3000;
 
-// Initialize and start server
 db.initDb()
   .then(() => {
     app.listen(PORT, () => {
@@ -77,7 +69,6 @@ db.initDb()
   })
   .catch(err => {
     console.error('Failed to initialize database, retrying in 5 seconds...', err);
-    // Retry database initialization after 5 seconds
     setTimeout(() => {
       db.initDb()
         .then(() => {

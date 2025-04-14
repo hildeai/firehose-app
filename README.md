@@ -1,6 +1,6 @@
 # Ride Management API
 
-A simple Express.js API for processing ride data with PostgreSQL database integration.
+An Express.js API for processing ride data using PostgreSQL.
 
 ## Setup
 
@@ -13,8 +13,8 @@ A simple Express.js API for processing ride data with PostgreSQL database integr
 3. Create a `.env` file based on `.env.example` and update with your database credentials
 4. Make sure PostgreSQL is running and the database is created
 
-### Deployment on Hetzner CX22/CX32
-The application includes a setup script for Hetzner servers:
+### Deployment
+The application includes a setup script:
 
 1. Clone this repository on your server:
    ```
@@ -43,7 +43,7 @@ The script will:
 
 ## Running the Application
 
-Development mode (with hot reloading):
+Development mode:
 ```
 npm run dev
 ```
@@ -53,6 +53,8 @@ Production mode:
 npm start
 ```
 
+> In production, starting and stopping the service is handled by systemctl.
+
 ## API Endpoints
 
 ### POST /rides
@@ -61,7 +63,7 @@ Creates a new ride entry in the database.
 Example request:
 ```json
 {
-  "Type": "standard",
+  "Type": "pickup",
   "Datetime": "2023-04-14T14:30:00Z",
   "UserID": 12345,
   "DriverID": 67890,
@@ -103,7 +105,6 @@ CREATE TABLE rides (
   tip_amount FLOAT NOT NULL,
   total_amount FLOAT NOT NULL,
   payment_type INTEGER NOT NULL,
-  currency_code VARCHAR(10) NOT NULL,
-  active BOOLEAN DEFAULT TRUE
+  currency_code VARCHAR(10) NOT NULL
 );
 ```

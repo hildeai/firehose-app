@@ -9,7 +9,6 @@ User=nodejs
 WorkingDirectory=/opt/firehose-app
 ExecStart=/usr/bin/node /opt/firehose-app/index.js
 Restart=always
-# Retry with exponential backoff
 RestartSec=10
 StartLimitIntervalSec=0
 StandardOutput=journal
@@ -18,7 +17,6 @@ SyslogIdentifier=firehose-app
 Environment=NODE_ENV=production
 Environment=PORT=80
 
-# Security enhancements
 ProtectSystem=full
 PrivateTmp=true
 NoNewPrivileges=true
