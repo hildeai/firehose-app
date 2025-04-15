@@ -59,7 +59,7 @@ app.get('/health', async (req, res) => {
   }
 });
 
-const PORT = process.env.NODE_ENV === 'production' ? 80 : 3000;
+const PORT = 8080;
 
 db.initDb()
   .then(() => {
